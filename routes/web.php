@@ -9,6 +9,7 @@ $this->group(['middleware' => ['auth']], function(){
     $this->post('deposit', 'BalanceController@depositStore')->name('deposit.store');
     $this->get('deposit', 'BalanceController@deposit')->name('balance.deposit');
    
+    $this->post('transfer', 'BalanceController@transferStore')->name('transfer.store');
     $this->get('transfer', 'BalanceController@transfer')->name('balance.transfer');
     $this->post('confirmTransfer', 'BalanceController@confirmTransfer')->name('confirm.transfer');
     

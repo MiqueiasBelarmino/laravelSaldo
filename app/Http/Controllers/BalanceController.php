@@ -62,8 +62,29 @@ class BalanceController extends Controller
             return redirect()->back()->with('error', 'Usuário não encontrado');        
         }
 
-        return view('admin.balance.transfer-confirm', compact('receiver'));
+        if($receiver->id == auth()->user()->id)
+        {
+            return redirect()->back()->with('error', 'Não é possivel transferir para sí');        
+        }
 
+        $balance = auth()->user()->balance;
+
+        return view('admin.balance.transfer-confirm', compact('receiver', 'balance'));
+
+    }
+
+    public function transferStore(MoneyValidationFormRequest $request, User $user)
+    {
+        if(!$receiver = $user->find($request->receiver_id))
+            return redirect()->route('balance.transfer')
+            ->with('error', 'Recebedor não encontrado');
+        $balance = auth()->user()->balance()->firstOrCreate([]);
+        $response = $balance->transfer($request->value, $receiver);
+
+        if($response['success'])
+            return redirect()->route('admin.balance')->with('success',$response['message']);
+        
+            return redirect()->route('balance.transfer')->with('error',$response['message']);
     }
 
 }
