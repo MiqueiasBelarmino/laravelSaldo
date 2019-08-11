@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo Saque')
+@section('title', 'Saque')
 
 @section('content_header')
     <h1>Efetuar saque</h1>
@@ -9,7 +9,7 @@
 @section('content')
 <div class="box">
         <div class="box-header">
-            <h1>Saque</h1>
+            <h1>Sacar</h1>
         </div>
         <div class="box-body">
           @include('admin.includes.alerts')
