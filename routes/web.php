@@ -13,6 +13,8 @@ $this->group(['middleware' => ['auth']], function(){
     $this->get('transfer', 'BalanceController@transfer')->name('balance.transfer');
     $this->post('confirmTransfer', 'BalanceController@confirmTransfer')->name('confirm.transfer');
     
+    $this->get('historic', 'BalanceController@historic')->name('admin.historic');
+
     $this->get('admin','AdminController@index')->name('admin.home');
 });
 
