@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Balance;
+use App\Models\Historic;
 use App\Http\Requests\MoneyValidationFormRequest;
 use App\User;
 
 class BalanceController extends Controller
 {
+    private $totalPage = 10;
     public function index()
     {
 
@@ -87,11 +89,24 @@ class BalanceController extends Controller
             return redirect()->route('balance.transfer')->with('error',$response['message']);
     }
 
-    public function historic()
+    public function historic(Historic $historic)
     {
-        $historics = auth()->user()->historics()->get();
+        $historics = auth()->user()->historics()->with(['userReceiver'])->paginate($this->totalPage);
+        
+        $types = $historic->type();
 
-        return view('admin.balance.historics', compact('historics'));
+        return view('admin.balance.historics', compact('historics', 'types'));
+    }
+
+    public function searchHistoric(Request $request, Historic $historic)
+    {
+        $dataForm = $request->except('_token');
+        $historics = $historic->search($dataForm,$this->totalPage);
+        $types = $historic->type();
+
+        //passar dataForm para não perder filtro na paginação
+        return view('admin.balance.historics', compact('historics', 'types','dataForm'));
+
     }
 
 }

@@ -1,6 +1,8 @@
 <?php
 $this->group(['middleware' => ['auth']], function(){
     
+    $this->any('historic-search', 'BalanceController@searchHistoric')->name('historic.search');
+
     $this->get('balance', 'BalanceController@index')->name('admin.balance');
 
     $this->get('withdraw', 'BalanceController@withdraw')->name('balance.withdraw');
