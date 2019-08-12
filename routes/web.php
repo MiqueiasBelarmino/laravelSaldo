@@ -18,7 +18,12 @@ $this->group(['middleware' => ['auth']], function(){
     $this->get('historic', 'BalanceController@historic')->name('admin.historic');
 
     $this->get('admin','AdminController@index')->name('admin.home');
+    $this->get('profile','UserController@profile')->name('profile');
+    $this->post('profileUpdate','UserController@profileUpdate')->name('profile.update');
+
 });
+
+
 
 
 $this->get('/', 'SiteController@index')->name('home');
